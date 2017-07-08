@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+<title>Inventarios TAMBO+</title>
+</head>
+<body>
+<div th:switch="${session.usuariologueado.tipoempleado.idtipoempleado}">
+<div th:case="0">ERROR: No se ha iniciado sesion.</div>
+<div th:case="1">ERROR: Admin no posee los permisos necesarios para ver este modulo.
+<form th:action="@{/empleado/admin/inicio}" method="post">
+<br/><button type="submit">Volver al Menu Admin</button>
+</form><br/>
+</div>
+<div th:case="2">ERROR: Logistica no posee los permisos necesarios para ver este modulo.
+<form th:action="@{/empleado/logistica/inicio}" method="post">
+<br/><button type="submit">Volver al Menu Logistica</button>
+</form><br/>
+</div>
+<div th:case="*">
+<h1>Sucursal - Modulos:</h1>
+<form th:action="@{/newSalidaproducto}" method="post">
+<button type="submit">Salidas de Productos</button>
+</form><br/><br/><br/><br/>
+<form th:action="@{/}" method="post">
+<button type="submit">Cerrar Sesion</button>
+</form><br/>
+</div>
+</div>
+</body>
+</html>

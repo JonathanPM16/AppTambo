@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+<title>Inventarios TAMBO+</title>
+</head>
+<body>
+<div th:switch="${session.usuariologueado.tipoempleado.idtipoempleado}">
+<div th:case="0">ERROR: No se ha iniciado sesion.</div>
+<div th:case="2">ERROR: Logistica no posee los permisos necesarios para ver este modulo.
+<form th:action="@{/empleado/logistica/inicio}" method="post">
+<br/><button type="submit">Volver al Menu Logistica</button>
+</form><br/>
+</div>
+<div th:case="3">ERROR: Sucursal no posee los permisos necesarios para ver este modulo.
+<form th:action="@{/empleado/sucursal/inicio}" method="post">
+<br/><button type="submit">Volver al Menu Sucursal</button>
+</form><br/>
+</div>
+<div th:case="*">
+<h1 align="center">Editar Sitio</h1><br/>
+<form  th:object="${sitio}" th:action="@{/sitio/new}" method="post">
+<input type="hidden" th:field="*{idsitio}" />
+	Nombre: <input type="text" th:field="*{nombre}" /><br/><br/>
+    Almacen:
+     <table border="1">
+      <thead>
+      <tr>
+          <th data-field="idalmacen">ID</th>
+          <th data-field="direccion">Direccion</th>
+          <th data-field="ciudad">Ciudad</th>
+          <th data-field="tipoalmacen">TipoAlmacen</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr th:each="a:${almacenes}">
+          <td th:text="${a.idalmacen}"></td>
+          <td th:text="${a.direccion}"></td>
+          <td th:text="${a.ciudad.nombre}"></td>
+          <td th:text="${a.tipoalmacen}"></td>
+          <td><input type="radio" th:field="*{almacen.idalmacen}"  name="almacen" th:value="${a.idalmacen}"></input></td>
+       </tr>
+      </tbody>
+    </table>   
+    <br/>
+	<br/><button type="submit">Guardar</button>
+</form>
+</div>
+</div>
+</body>
+</html>

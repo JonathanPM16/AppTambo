@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+<title>Inventarios TAMBO+</title>
+</head>
+<body>
+<div th:switch="${session.usuariologueado.tipoempleado.idtipoempleado}">
+<div th:case="0">ERROR: No se ha iniciado sesion.</div>
+<div th:case="1">ERROR: Admin no posee los permisos necesarios para ver este modulo.
+<form th:action="@{/empleado/admin/inicio}" method="post">
+<br/><button type="submit">Volver al Menu Admin</button>
+</form><br/>
+</div>
+<div th:case="2">ERROR: Logistica no posee los permisos necesarios para ver este modulo.
+<form th:action="@{/empleado/logistica/inicio}" method="post">
+<br/><button type="submit">Volver al Menu Logistica</button>
+</form><br/>
+</div>
+<div th:case="*">
+<h1 align="center">Salidas de Productos</h1>
+<form th:action="@{/empleado/sucursal/inicio}" method="post">
+<button type="submit">Regresar</button>
+</form>
+<h2>Registro de Salida de Producto</h2>
+<p style="color:red" align="center" th:text="${message}"></p>
+<form  th:object="${salidaproducto}" th:action="@{/salidaproducto/new}" method="post">
+	Cantidad: <input type="number" th:field="*{cantidad}" step="1"/><br/><br/>
+    Producto en Sitio - Sucursal:
+     <table border="1">
+      <thead>
+      <tr>
+        <th data-field="idproducto_sitio">ID</th>
+       	<th data-field="producto">Producto</th>
+        <th data-field="medida">Medida</th>
+        <th data-field="tipoproducto">TipoProducto</th>
+        <th data-field="precio">Precio</th>
+   		<th data-field="sitio">Sitio</th>
+   		<th data-field="direccion">DireccionAlmacen</th>
+   		<th data-field="tipoalmacen">TipoAlmacen</th>
+   		<th data-field="cantidad">Cantidad</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr th:each="ps:${productositios}">
+		    <td th:text="${ps.idproducto_sitio}"></td>
+		    <td th:text="${ps.producto.nombre}"></td>
+		    <td th:text="${ps.producto.medida}"></td>
+		    <td th:text="${ps.producto.tipoproducto.nombre}"></td>
+		    <td th:text="${ps.producto.precio}"></td>
+		    <td th:text="${ps.sitio.nombre}"></td>
+		    <td th:text="${ps.sitio.almacen.direccion}"></td>
+		    <td th:text="${ps.sitio.almacen.tipoalmacen}"></td>
+		    <td th:text="${ps.cantidad}"></td>
+          <td><input type="radio" th:field="*{producto.idproducto}"  name="productositio" th:value="${ps.idproducto_sitio}"></input></td>
+       </tr>
+      </tbody>
+    </table>   
+    <br/>
+	<br/><button type="submit">Registrar</button>
+</form>
+<h2>Lista Salidas de Productos</h2>
+	<table border="1">
+  <thead>
+   	<tr>
+   		<th data-field="idsalidaproducto">ID</th>
+        <th data-field="producto">Producto</th>
+        <th data-field="medida">Medida</th>
+        <th data-field="tipoproducto">TipoProducto</th>
+        <th data-field="precio">Precio</th>
+   		<th data-field="sitio">Sitio</th>
+   		<th data-field="direccion">DireccionAlmacen</th>
+   		<th data-field="tipoalmacen">TipoAlmacen</th>
+   		<th data-field="cantidad">Cantidad</th>
+   		<th data-field="empleado">UsuarioEmpleado</th>
+   	</tr>
+  </thead>
+  <tbody>
+  	<tr th:each="sp:${salidaproductos}">
+	    <td th:text="${sp.idsalidaproducto}"></td>
+	    <td th:text="${sp.producto.nombre}"></td>
+	    <td th:text="${sp.producto.medida}"></td>
+	    <td th:text="${sp.producto.tipoproducto.nombre}"></td>
+	    <td th:text="${sp.producto.precio}"></td>
+	    <td th:text="${sp.sitio.nombre}"></td>
+	    <td th:text="${sp.sitio.almacen.direccion}"></td>
+	    <td th:text="${sp.sitio.almacen.tipoalmacen}"></td>
+	    <td th:text="${sp.cantidad}"></td>
+	    <td th:text="${sp.empleado.usuario}"></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</body>
+</html>
